@@ -7,6 +7,7 @@ async-timeout==4.0.3
 atproto==0.0.56
 attrs==24.2.0
 blinker==1.9.0
+bsky-bridge==1.0.7
 certifi==2024.8.30
 cffi==1.17.1
 chardet==5.2.0
