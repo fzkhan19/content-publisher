@@ -11,7 +11,7 @@ from src.platforms.bluesky_handler import BlueskyHandler
 import sys
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class SocialMediaPoster(QWidget):
     def __init__(self):
