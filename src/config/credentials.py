@@ -14,8 +14,8 @@ class Credentials:
         self.TWITTER_ACCESS_SECRET = os.getenv("TWITTER_ACCESS_SECRET")
 
         # LinkedIn credentials
-        self.LINKEDIN_ACCESS_TOKEN = os.getenv("LINKEDIN_ACCESS_TOKEN")
-        self.LINKEDIN_USER_ID = os.getenv("LINKEDIN_USER_ID")
+        self.LINKEDIN_CLIENT_SECRET = os.getenv("LINKEDIN_CLIENT_SECRET")
+        self.LINKEDIN_CLIENT_ID = os.getenv("LINKEDIN_CLIENT_ID")
 
         # Bluesky credentials
         self.BLUESKY_HANDLE = os.getenv("BLUESKY_HANDLE")

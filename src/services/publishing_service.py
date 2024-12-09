@@ -1,5 +1,6 @@
 import logging
 
+
 class PublishingService:
     def __init__(self, platform_handlers):
         self.handlers = platform_handlers
