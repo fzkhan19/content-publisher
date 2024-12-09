@@ -8,8 +8,8 @@ class ContentGenerator:
     def generate_content(self, activities):
         prompts = {
             "x": f"Generate a concise tweet about: {activities}. Include relevant hashtags. Keep it under 280 characters. Return just the tweet text without any explanations.",
-            "linkedin": f"Generate a professional LinkedIn post about: {activities}. Include relevant hashtags and maintain professional tone. Return just the post text without any explanations.",
-            "bluesky": f"Generate an engaging Bluesky post about: {activities}. Include relevant hashtags. Return just the post text without any explanations."
+            "linkedin": f"Generate a professional LinkedIn post about: {activities}. Include relevant hashtags and maintain professional tone. Keep it under 3000 characters. Return just the post text without any explanations.",
+            "bluesky": f"Generate an engaging Bluesky post about: {activities}. Include relevant hashtags. Keep it under 300 characters. Return just the post text without any explanations."
         }
 
         responses = {}

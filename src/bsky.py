@@ -13,6 +13,5 @@ if __name__ == "__main__":
         },
     )
     handler = BlueskyHandler(credentials)
-  
     # Call the post function to start the process
-    handler.post("This is a test post via the automated Bluesky API flow.")
+    handler.post("This is a test post via the automated Bluesky API flow. #test")
