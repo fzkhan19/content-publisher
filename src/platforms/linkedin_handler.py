@@ -13,7 +13,7 @@ class LinkedInHandler:
         url = "https://www.linkedin.com/oauth/v2/accessToken"
         payload = {
             "grant_type": "authorization_code",
-            "code": "AQS96_AyxBhcngC9wAP1P3tLjzp1f8kLKs62PYlgjIGthW-EO5_QxON775K4zGW8jOGaMMR15eWI8pCAilFeHAyahxdr1J3I0ndBwEQ_fHVI7-iwE5piwmfpy5yi9nvpatfIv-7jGPI1MP6c2qVwuZ7450oObLB0gol9NRTprYgl1-Iw_wnq0_I6KmKQy0Qalwwk1DzN_-HKFleEsq8",
+            "code": "",
             "redirect_uri": "http://localhost:8080/code",
             "client_id": self.client_id,
             "client_secret": self.client_secret,
