@@ -1,16 +1,43 @@
-from PyQt5.QtWidgets import (
-    QVBoxLayout, QHBoxLayout, QTextEdit,
-    QPushButton, QCheckBox, QLabel, QWidget,
-    QStackedLayout, QProgressBar
+from qfluentwidgets import (
+    CheckBox,
+    TextEdit,
+    ProgressBar,
+    PrimaryPushButton,
+    StrongBodyLabel,
+    BodyLabel,
+    FluentWindow,
+    FluentIcon,
+    InfoBar,
 )
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QWidget, QStackedLayout
 from PyQt5.QtCore import Qt
 import logging
+
 
 class UIService:
     def __init__(self, main_widget):
         self.widget = main_widget
         self.setup_ui_components()
+        self.setup_button_style()
         logging.info("UI Service initialized")
+
+    def setup_button_style(self):
+        button_style = """
+            PrimaryPushButton {
+                background-color: black;
+                color: #fafafa;
+                border: 1px solid white;
+                border-radius: 6px;
+                padding: 8px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            PrimaryPushButton:hover {
+                background-color: #18181a;
+            }
+        """
+        self.generate_button.setStyleSheet(button_style)
+        self.publish_button.setStyleSheet(button_style)
 
     def setup_ui_components(self):
         self.main_layout = QVBoxLayout(self.widget)
@@ -27,34 +54,14 @@ class UIService:
 
     def create_loading_overlay(self):
         overlay = QWidget(self.widget)
-        overlay.setStyleSheet("""
-            QWidget {
-                background-color: rgba(255, 255, 255, 0.7);
-            }
-            QLabel {
-                color: #333;
-                font-size: 18px;
-                font-weight: bold;
-            }
-            QProgressBar {
-                border: 2px solid grey;
-                border-radius: 5px;
-                text-align: center;
-            }
-            QProgressBar::chunk {
-                background-color: #4CAF50;
-                width: 20px;
-            }
-        """)
-
         layout = QVBoxLayout(overlay)
 
-        spinner = QProgressBar()
+        spinner = ProgressBar()
         spinner.setMinimum(0)
         spinner.setMaximum(0)
-        spinner.setFixedSize(100, 20)
+        spinner.setFixedSize(200, 4)
 
-        loading_label = QLabel("Generating content...")
+        loading_label = BodyLabel("Generating content...")
         loading_label.setAlignment(Qt.AlignCenter)
 
         layout.addStretch()
@@ -74,22 +81,20 @@ class UIService:
         self.platform_checkboxes = self.create_platform_section(layout)
 
         # Generate button
-        self.generate_button = QPushButton("Generate Posts")
-        self.generate_button.setStyleSheet("background-color: #4CAF50; color: white; padding: 5px;")
+        self.generate_button = PrimaryPushButton("Generate Posts")
         layout.addWidget(self.generate_button)
 
         # Preview section
         self.preview_area = self.create_preview_section(layout)
 
         # Publish button
-        self.publish_button = QPushButton("Publish Posts")
-        self.publish_button.setStyleSheet("background-color: #008CBA; color: white; padding: 5px;")
+        self.publish_button = PrimaryPushButton("Publish Posts")
         layout.addWidget(self.publish_button)
 
     def create_input_section(self, parent_layout):
         input_section = QVBoxLayout()
-        input_label = QLabel("What cool things did you do today?")
-        input_area = QTextEdit()
+        input_label = StrongBodyLabel("What cool things did you do today?")
+        input_area = TextEdit()
         input_area.setMinimumHeight(100)
         input_section.addWidget(input_label)
         input_section.addWidget(input_area)
@@ -98,13 +103,13 @@ class UIService:
 
     def create_platform_section(self, parent_layout):
         platform_section = QVBoxLayout()
-        platform_label = QLabel("Select platforms to post:")
+        platform_label = StrongBodyLabel("Select platforms to post:")
         platform_section.addWidget(platform_label)
 
         checkboxes = {
-            "x": QCheckBox("Post on X"),
-            "linkedin": QCheckBox("Post on LinkedIn"),
-            "bluesky": QCheckBox("Post on Bluesky")
+            "x": CheckBox("Post on X"),
+            "linkedin": CheckBox("Post on LinkedIn"),
+            "bluesky": CheckBox("Post on Bluesky"),
         }
 
         checkbox_layout = QHBoxLayout()
@@ -116,8 +121,8 @@ class UIService:
 
     def create_preview_section(self, parent_layout):
         preview_section = QVBoxLayout()
-        preview_label = QLabel("Generated Posts Preview:")
-        preview_area = QTextEdit()
+        preview_label = StrongBodyLabel("Generated Posts Preview:")
+        preview_area = TextEdit()
         preview_area.setReadOnly(True)
         preview_area.setMinimumHeight(200)
         preview_section.addWidget(preview_label)
@@ -126,7 +131,9 @@ class UIService:
         return preview_area
 
     def toggle_loading(self, show):
-        self.stacked_layout.setCurrentWidget(self.loading_overlay if show else self.main_widget)
+        self.stacked_layout.setCurrentWidget(
+            self.loading_overlay if show else self.main_widget
+        )
 
     def update_preview(self, preview_text):
         self.preview_area.setText(preview_text)
