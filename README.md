@@ -37,3 +37,31 @@ Content Bot automatically:
 3. Configure API keys
 4. Set up your activity tracking
 5. Run the bot
+
+## Creating Developer Accounts and Getting Credentials
+
+### X (Twitter)
+
+1. Go to the [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard).
+2. Sign in with your Twitter account or create a new one.
+3. Apply for a developer account by filling out the required information.
+4. Once approved, create a new project and app.
+5. Navigate to the "Keys and Tokens" tab to find your API Key, API Secret Key, Access Token, and Access Token Secret.
+6. Store these credentials securely.
+
+### LinkedIn
+
+1. Visit the [LinkedIn Developer Portal](https://www.linkedin.com/developers/).
+2. Sign in with your LinkedIn account or create a new one.
+3. Click on "Create App" and fill in the necessary details.
+4. Once the app is created, go to the "Auth" tab to find your Client ID and Client Secret.
+5. Set up the necessary permissions for your app.
+6. Store these credentials securely.
+
+### Bluesky
+
+1. Go to the [Bluesky Developer Portal](https://bsky.app/).
+2. Sign in or create a new account.
+3. Apply for developer access if required.
+4. Create a new application to obtain your App Password and Handle.
+5. Store these credentials securely.

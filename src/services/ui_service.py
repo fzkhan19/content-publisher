@@ -5,11 +5,16 @@ from qfluentwidgets import (
     PrimaryPushButton,
     StrongBodyLabel,
     BodyLabel,
-    FluentWindow,
-    FluentIcon,
-    InfoBar,
+    ComboBox,
+    SubtitleLabel,
 )
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QWidget, QStackedLayout
+from PyQt5.QtWidgets import (
+    QVBoxLayout,
+    QHBoxLayout,
+    QWidget,
+    QStackedLayout,
+    QSizePolicy,
+)
 from PyQt5.QtCore import Qt
 import logging
 
@@ -23,19 +28,19 @@ class UIService:
 
     def setup_button_style(self):
         button_style = """
-            PrimaryPushButton {
-                background-color: black;
-                color: #fafafa;
-                border: 1px solid white;
-                border-radius: 6px;
-                padding: 8px;
-                font-size: 14px;
-                font-weight: bold;
-            }
-            PrimaryPushButton:hover {
-                background-color: #18181a;
-            }
-        """
+              PrimaryPushButton {
+                  background-color: black;
+                  color: #fafafa;
+                  border: 1px solid white;
+                  border-radius: 6px;
+                  padding: 8px;
+                  font-size: 14px;
+                  font-weight: bold;
+              }
+              PrimaryPushButton:hover {
+                  background-color: #18181a;
+              }
+          """
         self.generate_button.setStyleSheet(button_style)
         self.publish_button.setStyleSheet(button_style)
 
@@ -47,14 +52,33 @@ class UIService:
 
         self.build_main_layout()
 
+        # Add model selector
+        self.model_selector = ComboBox()
+        self.model_selector.addItems(["Gemini", "Ollama"])
+        self.model_selector.setCurrentText("Gemini")
+        self.model_selector.currentTextChanged.connect(self.on_model_changed)
+
+        # Add to layout before other components
+        self.main_layout.addWidget(SubtitleLabel("Select Model"))
+        self.main_layout.addWidget(self.model_selector)
+
         self.stacked_layout.addWidget(self.main_widget)
         self.stacked_layout.addWidget(self.loading_overlay)
         self.main_layout.addLayout(self.stacked_layout)
         self.stacked_layout.setCurrentWidget(self.main_widget)
 
+    def on_model_changed(self, new_model):
+        logging.info(f"Model changed to: {new_model}")
+
     def create_loading_overlay(self):
         overlay = QWidget(self.widget)
         layout = QVBoxLayout(overlay)
+
+        # Set overlay properties for full coverage
+        overlay.setStyleSheet("background-color: rgba(255, 255, 255, 0.9);")
+
+        # Remove fixed size and use size policy instead
+        overlay.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         spinner = ProgressBar()
         spinner.setMinimum(0)
@@ -131,6 +155,7 @@ class UIService:
         return preview_area
 
     def toggle_loading(self, show):
+        self.model_selector.setDisabled(show)  # Disable the combobox when loading
         self.stacked_layout.setCurrentWidget(
             self.loading_overlay if show else self.main_widget
         )
@@ -146,3 +171,6 @@ class UIService:
             platform: checkbox.isChecked()
             for platform, checkbox in self.platform_checkboxes.items()
         }
+
+    def get_selected_model(self):
+        return self.model_selector.currentText().lower()

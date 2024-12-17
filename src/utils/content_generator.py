@@ -1,10 +1,17 @@
-import ollama
+import google.generativeai as genai
 import json
+import os
+import ollama
 
 
 class ContentGenerator:
-    def __init__(self, model="llama3.2"):
-        self.model = model
+
+    def __init__(self, model="gemini-pro", use_ollama=False):
+        if use_ollama:
+            self.model = "llama3.2"
+        else:
+            genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+            self.model = genai.GenerativeModel(model)
 
     def generate_content(self, activities):
         prompts = {
@@ -15,10 +22,21 @@ class ContentGenerator:
 
         responses = {}
         for platform, prompt in prompts.items():
-            system_prompt = "You are a social media content generator. Respond with only the content requested, no explanations or additional text."
-            response = ollama.generate(
-                model=self.model, prompt=prompt, system=system_prompt
-            )
-            responses[platform] = response["response"].strip()
+            if self.model == "llama3.2":
+                system_prompt = "You are a social media content generator. Respond with only the content requested, no explanations or additional text."
+                response = ollama.generate(
+                    model=self.model, prompt=prompt, system=system_prompt
+                )
+                responses[platform] = response["response"].strip()
+            else:
+                response = self.model.generate_content(
+                    contents=[{"role": "user", "parts": [prompt]}],
+                    generation_config={
+                        "temperature": 0.9,  # Increased for more creative/natural output
+                        "top_p": 0.9,
+                        "top_k": 40,
+                    },
+                )
+                responses[platform] = response.text.strip()
 
         return json.dumps(responses)
